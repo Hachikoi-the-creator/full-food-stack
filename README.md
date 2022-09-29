@@ -1,6 +1,8 @@
 # !TODO
 - Add an input verification inside `newMealForm.js`
 - Add a way for user to add arbirary images in `newMealForm.js`
+  
+- May solve this guy's [doubt](https://dev.to/musolemasu/lets-build-and-deploy-a-full-stack-nextjs-app-part-3-5fed)
 
 ## Steps
 - create new app

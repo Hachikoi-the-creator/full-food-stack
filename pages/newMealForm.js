@@ -7,6 +7,8 @@ import React from "react";
  * img_path: /img/meal1.jpg USUING IMAGES FROM THE SAME APP...
  * n: 77
  * chef_name: Jhonny bravo
+const as = {1:"111",2:"2222"}
+const be = JSON.stringify(as)
  *  */
 
 export default function newMealForm() {
@@ -19,23 +21,25 @@ export default function newMealForm() {
   // use of useRouter from next/router to redirect this page to the Homepage
   const router = useRouter();
 
-  // ? Handler
+  // ! Handler
   const newMealHandler = async (event) => {
     event.preventDefault();
 
     const mealData = {
       name: mealNameInputRef.current.value,
-      image_path: mealImagePathInputRef.current.value,
-      dishes: mealNumberOfDishInputRef.current.value,
-      chef: chefInputRef.current.value,
+      // image_path: mealImagePathInputRef.current.value,
+      // servings_amount: mealNumberOfDishInputRef.current.value,
+      // chef: chefInputRef.current.value,
     };
 
     // use of Fetch API to make a request to the new-meal api and get back a response
+    console.log(JSON.parse(JSON.stringify(mealData)));
     const response = await fetch("/api/new-meal", {
       method: "POST",
+      // method: "GET",
       body: JSON.stringify(mealData),
       headers: {
-        "content-Type": "application/json",
+        "content-Type": "text/javascript",
       },
     });
 
@@ -54,15 +58,16 @@ export default function newMealForm() {
   return (
     <div className="flex-col px-12 py-12 max-w-3xl mx-auto shadow-xl rounded-2xl">
       <h1 className="font-light text-4xl">Add a new Meal </h1>
-      <form onSubmit={newMealHandler}>
+      <form action="/api/new-meal" method="post">
         <input
           type="text"
+          name="meal name"
           placeholder="Meal Name"
           required
-          ref={mealNameInputRef}
+          // ref={mealNameInputRef}
           className={INPUT_STYLE}
         />
-        <input
+        {/* <input
           type="text"
           placeholder="Image Path"
           required
@@ -84,7 +89,7 @@ export default function newMealForm() {
           required
           ref={chefInputRef}
           className={INPUT_STYLE}
-        />
+        /> */}
         <button
           type="submit"
           className="bg-yellow-500 text-gray-800 font-medium text-xl inline-flex  w-full items-center px-4 py-4 rounded-xl"
