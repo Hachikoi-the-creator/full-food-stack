@@ -18,38 +18,29 @@ export default function newMealForm() {
   const mealNumberOfDishInputRef = useRef();
   const chefInputRef = useRef();
 
-  // use of useRouter from next/router to redirect this page to the Homepage
-  const router = useRouter();
+  // const router = useRouter();
 
   // ! Handler
-  const newMealHandler = async (event) => {
-    event.preventDefault();
+  // ? pseudo fix
+  const verifyData = (e) => {
+    e.preventDefault();
+    // console.log(+mealNumberOfDishInputRef.current.value);
+    // console.log(mealNumberOfDishInputRef.current.value.length);
+    console.log("name", mealNameInputRef.current.value.length > 3);
+    console.log("num", +mealNumberOfDishInputRef.current.value > 0);
+    console.log("link", mealImagePathInputRef.current.value.length > 3);
+    console.log("chef name", chefInputRef.current.value.length > 3);
+    const validInputs =
+      mealNameInputRef.current.value.length > 3 &&
+      +mealNumberOfDishInputRef.current.value > 0 &&
+      mealImagePathInputRef.current.value.length > 20 &&
+      chefInputRef.current.value.length > 3;
 
-    const mealData = {
-      name: mealNameInputRef.current.value,
-      // image_path: mealImagePathInputRef.current.value,
-      // servings_amount: mealNumberOfDishInputRef.current.value,
-      // chef: chefInputRef.current.value,
-    };
-
-    // use of Fetch API to make a request to the new-meal api and get back a response
-    console.log(JSON.parse(JSON.stringify(mealData)));
-    const response = await fetch("/api/new-meal", {
-      method: "POST",
-      // method: "GET",
-      body: JSON.stringify(mealData),
-      headers: {
-        "content-Type": "text/javascript",
-      },
-    });
-
-    // parses JSON response into native JavaScript objects
-    const data = await response.json();
-
-    console.log(data);
-
-    // redirects this page to the Homepage
-    router.replace("/");
+    if (true) {
+      document.querySelector(".hidden").click();
+    } else {
+      console.log("Incorrect data input");
+    }
   };
 
   const INPUT_STYLE =
@@ -60,14 +51,15 @@ export default function newMealForm() {
       <h1 className="font-light text-4xl">Add a new Meal </h1>
       <form action="/api/new-meal" method="post">
         <input
+          name="meal_name"
           type="text"
-          name="meal name"
           placeholder="Meal Name"
           required
-          // ref={mealNameInputRef}
+          ref={mealNameInputRef}
           className={INPUT_STYLE}
         />
-        {/* <input
+        <input
+          name="meal_img_link"
           type="text"
           placeholder="Image Path"
           required
@@ -75,27 +67,30 @@ export default function newMealForm() {
           className={INPUT_STYLE}
         />
         <input
+          name="amount_of_dishes"
           type="number"
-          max="5"
-          min="1"
+          // max="5"
+          // min="1"
           placeholder="Number of Dishes"
           required
           ref={mealNumberOfDishInputRef}
           className={INPUT_STYLE}
         />
         <input
+          name="chef_name"
           type="text"
           placeholder="Name of Chef"
           required
           ref={chefInputRef}
           className={INPUT_STYLE}
-        /> */}
+        />
         <button
-          type="submit"
+          onClick={verifyData}
           className="bg-yellow-500 text-gray-800 font-medium text-xl inline-flex  w-full items-center px-4 py-4 rounded-xl"
         >
           Add Now
         </button>
+        <button className="hidden" type="submit"></button>
       </form>
     </div>
   );
